@@ -8,13 +8,20 @@ internal interface IEventBinding<T>
 
 internal class EventBinding<T> : IEventBinding<T> where T : IEvent 
 {
+    // 1 function for 1 event.
     public Action<T> onEvent { get; set; }
+    
+    // 1 parameterless function for any events.
     public Action onEventNoArgs { get; set; }
     
-    public EventBinding(Action<T> onEvent = null, Action onEventNoArgs = null) 
+    // 1 parametered function for any/many events.
+    public Action<IEvent> onEventUntyped { get; set; }
+    
+    public EventBinding(Action<T> onEvent = null, Action onEventNoArgs = null,  Action<IEvent> onEventUntyped = null) 
     {
         this.onEventNoArgs = onEventNoArgs ?? delegate { };
         this.onEvent = onEvent ?? delegate { };
+        this.onEventUntyped = onEventUntyped ?? delegate { };
     }
     
     public void AddAction(Action<T> action) { onEvent += action; }
@@ -22,11 +29,15 @@ internal class EventBinding<T> : IEventBinding<T> where T : IEvent
     
     public void AddAction(Action action) { onEventNoArgs += action; }
     public void RemoveAction(Action action) { onEventNoArgs -= action; }
+    
+    public void AddAction(Action<IEvent> action) { onEventUntyped += action; }
+    public void RemoveAction(Action<IEvent> action) { onEventUntyped -= action; }
 
     public void Invoke(T @event) 
     {
         onEvent.Invoke(@event);
         onEventNoArgs.Invoke();
+        onEventUntyped.Invoke(@event);
     }
 
 }
