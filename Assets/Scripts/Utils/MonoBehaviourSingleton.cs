@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviourSingleton<T>
 {
-    private static T instance = null;
+    private static T instance;
     public static T Instance{ get=>instance; }
     
-    public void Awake()
+    public virtual void Awake()
     {
         if(Instance != null)
         {
@@ -18,7 +18,7 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviourSi
         instance = this as T;
     }
     
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
         if(instance == this)
         {

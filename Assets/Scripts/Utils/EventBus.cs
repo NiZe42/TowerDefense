@@ -2,12 +2,37 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.Reflection;
 using UnityEngine;
 
-public class EventBus: MonoBehaviour
+public class EventBus: MonoBehaviourSingleton<EventBus>
 {
-   private readonly Dictionary<Type, object> eventBindings;
+   private readonly Dictionary<Type, object> eventBindings =  new Dictionary<Type, object>();
 
+   public override void Awake() {
+      base.Awake();
+      InitializeForAllEvents();
+   }
+
+   // TODO: revise it
+   public void InitializeForAllEvents()
+   {
+      Type currentType = typeof(EventBus);
+      Assembly containingAssembly = currentType.Assembly;
+      
+      Type[] types = containingAssembly.GetTypes();
+      foreach (Type type in types)
+      {
+         if (!typeof(IEvent).IsAssignableFrom(type) || type.IsInterface || type.IsAbstract)
+            continue;
+
+         if (eventBindings.ContainsKey(type)) continue;
+         Type bindingType = typeof(EventBinding<>).MakeGenericType(type);
+         object bindingInstance = Activator.CreateInstance(bindingType);
+         eventBindings[type] = bindingInstance;
+      }
+   }
+   
    private EventBinding<T> GetEventBinding<T>() where T : IEvent
    {
       var type = typeof(T);

@@ -17,6 +17,8 @@ internal class EventBinding<T> : IEventBinding<T> where T : IEvent
     // 1 parametered function for any/many events.
     public Action<IEvent> onEventUntyped { get; set; }
     
+    public EventBinding() : this(null, null, null) {}
+    
     public EventBinding(Action<T> onEvent = null, Action onEventNoArgs = null,  Action<IEvent> onEventUntyped = null) 
     {
         this.onEventNoArgs = onEventNoArgs ?? delegate { };
