@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class Tile : IEquatable<Tile>
 {
-    public Vector2 worldPosition;
+    public Vector3 worldPosition;
     public Tower currentOccupant;
 
-    private static readonly Tile nullTile = new Tile(new Vector2(float.MinValue, float.MaxValue));
+    private static readonly Tile nullTile = new Tile(new Vector3(float.MinValue, float.MaxValue, float.MinValue));
     
     // Tiles are never meant to be one above the other.
     // So we need to only compare position to get if those are the same tiles or not.
-    public Tile(Vector2 position, Tower currentOccupant = null) {
+    public Tile(Vector3 position, Tower currentOccupant = null) {
         this.worldPosition = position;
         this.currentOccupant = currentOccupant;
     }
@@ -22,7 +22,7 @@ public class Tile : IEquatable<Tile>
     }
 
     public bool Equals(Tile otherTile) {
-        return worldPosition == otherTile.worldPosition;
+        return worldPosition == otherTile?.worldPosition;
     }
     
     public override bool Equals(object obj) {

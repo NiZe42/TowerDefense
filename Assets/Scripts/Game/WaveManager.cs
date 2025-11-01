@@ -1,6 +1,3 @@
 using UnityEngine;
 
-public class WaveManager : MonoBehaviourSingleton<WaveManager>
-{
-    
-}
+public class WaveManager : MonoBehaviourSingleton<WaveManager> { }

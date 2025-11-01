@@ -28,7 +28,7 @@ public class GridSelection : MonoBehaviour
         
         Debug.Log("OnMousePress");
         
-        if (!RaycastToTile(out Vector2 hitPosition))
+        if (!RaycastToTile(out Vector3 hitPosition))
             return;
 
         if (!tileGrid.TryGetTileIndexFromWorldPosition(hitPosition, out Vector2Int selectedTileIndex)) {
@@ -63,21 +63,19 @@ public class GridSelection : MonoBehaviour
             }
         }
         
-        
-        
         tileGrid.placedTowers[tower] = possibleSelectedBlock;
         Debug.Log(tileGrid.placedTowers[tower]);
         selectedBlock = possibleSelectedBlock;
     }
     
-    bool RaycastToTile(out Vector2 raycastHitPosition) {
+    bool RaycastToTile(out Vector3 raycastHitPosition) {
         raycastHitPosition = default;
 
         Ray ray = activeCamera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out RaycastHit hit, 10000, gridPlaneMask))
             return false;
 
-        raycastHitPosition = new Vector2(hit.point.x, hit.point.z);
+        raycastHitPosition = hit.point;
         return true;
     }
 }

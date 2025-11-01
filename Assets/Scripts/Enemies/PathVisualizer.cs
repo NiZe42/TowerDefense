@@ -10,7 +10,6 @@ public class PathVisualizer : MonoBehaviour
     [SerializeField]
     PathFindingManager pathFindingManager;
     
-    private Vector3 gridWorldPosition;
     private List<Tile> path = new List<Tile>();
     private void Start() {
         
@@ -36,7 +35,7 @@ public class PathVisualizer : MonoBehaviour
         for (int i = 0; i < path.Count; i++)
         {
             Tile tile = path[i];
-            Vector3 worldPos = new Vector3(tile.worldPosition.x, gridWorldPosition.y + tileHeightOffset, tile.worldPosition.y);
+            Vector3 worldPos = tile.worldPosition +  new Vector3(0f, tileHeightOffset, 0f);
             
             if(i == 0) Gizmos.color = Color.blue;
             if(i == path.Count - 1) Gizmos.color = Color.red;
@@ -46,7 +45,7 @@ public class PathVisualizer : MonoBehaviour
             if (i < path.Count - 1)
             {
                 Tile nextTile = path[i + 1];
-                Vector3 nextPos = new Vector3(nextTile.worldPosition.x, gridWorldPosition.y + tileHeightOffset, nextTile.worldPosition.y);
+                Vector3 nextPos = nextTile.worldPosition +  new Vector3(0f, tileHeightOffset, 0f);
                 Gizmos.DrawLine(worldPos, nextPos);
             }
         }
@@ -54,6 +53,5 @@ public class PathVisualizer : MonoBehaviour
 
     void PathFindingManager_OnPathUpdated(List<Tile> enemiesPath) {
         this.path = enemiesPath;
-        gridWorldPosition = pathFindingManager.tileGrid.gameObject.transform.position;
     }
 }

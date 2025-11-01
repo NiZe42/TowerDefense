@@ -40,13 +40,13 @@ public struct Block2X2 {
         };
     }
 
-    public Vector2 GetCenterPosition() {
+    public Vector3 GetCenterPosition() {
         Vector3 allPositionsSum = topLeftTile.worldPosition + 
                       topRightTile.worldPosition + 
                       bottomLeftTile.worldPosition + 
                       bottomRightTile.worldPosition; 
         
-        return new Vector2(allPositionsSum.x, allPositionsSum.y) / 4;
+        return new Vector3(allPositionsSum.x, allPositionsSum.y) / 4;
     }
 
     public bool IsTilePartOfThis(Tile tile) {

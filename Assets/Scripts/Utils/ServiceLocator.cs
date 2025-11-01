@@ -4,10 +4,7 @@ using UnityEngine;
 
 public interface IService { }
 
-public class ServiceLocator : MonoBehaviourSingleton<ServiceLocator> {
-    public ServiceLocator() {
-        
-    }
-    
-    
+public class ServiceLocator : MonoBehaviourSingleton<ServiceLocator>
+{
+    public ServiceLocator() { }
 }

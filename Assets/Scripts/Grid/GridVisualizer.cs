@@ -24,8 +24,7 @@ public class GridVisualizer : MonoBehaviour {
         for (int x = 0; x < tileGrid.gridPreset.tileCount.x; x++) {
             for (int y = 0; y < tileGrid.gridPreset.tileCount.y; y++) {
                 Tile tile = tileGrid.tiles[x, y];
-                Vector3 center = new Vector3(tile.worldPosition.x, 0f, tile.worldPosition.y) + 
-                                 new Vector3(0f, tileHeightOffset, 0f);
+                Vector3 center = tile.worldPosition + new Vector3(0f, tileHeightOffset, 0f);
                 
                 Gizmos.color = tile.IsOccupied() ? Color.red : Color.black;
                 
@@ -37,8 +36,7 @@ public class GridVisualizer : MonoBehaviour {
                 Gizmos.color = Color.yellow;
 
                 float outlineScale = 1f; 
-                Vector3 center = new Vector3(tile.worldPosition.x, 0f, tile.worldPosition.y) + 
-                                 new Vector3(0f, tileHeightOffset, 0f);
+                Vector3 center = tile.worldPosition + new Vector3(0f, tileHeightOffset, 0f);
                 Gizmos.DrawWireCube(center,
                     new Vector3(tileSize.x * outlineScale, 0.02f, tileSize.y * outlineScale));
             }

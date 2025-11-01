@@ -3,6 +3,7 @@ using System.Numerics;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Priority_Queue;
+using Vector3 = UnityEngine.Vector3;
 
 public class PathFinder
 {
@@ -13,7 +14,7 @@ public class PathFinder
     public Vector2Int startPositionIndex { get; internal set; }
     public Vector2Int endPositionIndex { get; internal set; }
 
-    internal PathFinder(TileGrid grid, Vector2 startPosition, Vector2 endPosition) {
+    internal PathFinder(TileGrid grid, Vector3 startPosition, Vector3 endPosition) {
         tileGrid = grid;
 
         if (!grid.TryGetTileIndexFromWorldPosition(startPosition, out Vector2Int startPositionIndex)) {
@@ -98,11 +99,4 @@ public class PathFinder
         result.Reverse();
         return result;
     }
-
-    private float ManhattanDistance(Vector2Int tile1, Vector2Int tile2)
-    {
-        return Mathf.Abs(tile1.x - tile2.x) + Mathf.Abs(tile1.y - tile2.y);
-    }
-    
-    
 }
