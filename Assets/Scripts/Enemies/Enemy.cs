@@ -1,58 +1,86 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Damageable {
-    public override event Action<int, int> OnDamageTaken;
-
+public class Enemy : Damageable
+{
     [SerializeField]
     protected int maxHealth;
 
     [SerializeField]
-    protected int baseMoveSpeed;
+    protected float baseMoveSpeed;
 
     [SerializeField]
     protected int carriedMoney;
 
     [SerializeField]
-    protected MoveBehaviour moveBehaviour;
-    
-    [SerializeField]
-    protected Animator animator;
-    
-    protected int moveSpeedMultiplier;
+    protected int finishDamage;
 
-    public override int MaxHealth { get => maxHealth; protected set => maxHealth = value; }
+    [SerializeField]
+    protected MoveBehaviour moveBehaviour;
+
+    [SerializeField]
+    private GameObject visualPrefab;
 
     private int health;
+
+    private EnemyVisual visualInstance;
+
+    public float moveSpeedMultiplier { get; protected set; } = 1;
+
+    public override int MaxHealth { get => maxHealth; protected set => maxHealth = value; }
     public override int Health { get => health; protected set => health = value; }
 
-    public void OnEnable() {
-        health = 5;
+    private void Awake()
+    {
+        visualInstance = Instantiate(visualPrefab, transform).GetComponent<EnemyVisual>();
     }
 
-    public void Start() {
+    private void Start()
+    {
         moveBehaviour.Initialize(this);
+        moveBehaviour.OnReachedFinish += ReachedFinish;
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         moveBehaviour.Move(baseMoveSpeed * moveSpeedMultiplier * Time.fixedDeltaTime);
+        visualInstance.speedMultiplier = moveSpeedMultiplier;
     }
 
-    public override void ReceiveDamage(int damage) {
+    public void OnEnable()
+    {
+        health = maxHealth;
+    }
+
+    public override event Action<int, int> OnDamageTaken;
+
+    public override void ReceiveDamage(int damage)
+    {
         health -= damage;
         DamageTaken();
-        if (health > 0) return;
-        
+        if (health > 0)
+        {
+            return;
+        }
+
         health = 0;
         Died();
     }
 
-    private void DamageTaken() {
+    private void DamageTaken()
+    {
         OnDamageTaken?.Invoke(health, maxHealth);
-    }    
-    public override void Died() {
-        EventBus.Instance.InvokeEvent(new EnemyDestroyed(){droppedMoney = this.carriedMoney});
+    }
+
+    private void ReachedFinish()
+    {
+        EventBus.Instance.InvokeEvent(new OnEnemyReachedFinish { damage = finishDamage });
+        Destroy(gameObject);
+    }
+
+    public override void Died()
+    {
+        EventBus.Instance.InvokeEvent(new OnEnemyDestroyed { droppedMoney = carriedMoney });
         Destroy(gameObject);
     }
 }

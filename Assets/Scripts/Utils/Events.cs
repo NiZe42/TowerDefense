@@ -1,24 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public interface IEvent {};
+public interface IEvent { }
 
-public struct FreeBlock2X2Selected : IEvent {
+public struct OnFreeBlock2X2Selected : IEvent
+{
     public Vector2 blockCenter;
 }
 
-public struct TowerSelected : IEvent {
+public struct OnTowerSelected : IEvent
+{
     public Vector2 towerCenter;
 }
 
-public struct EnemyDestroyed : IEvent {
+public struct OnEnemyDestroyed : IEvent
+{
     public int droppedMoney;
 }
 
-public struct PathHasChanged : IEvent {
+public struct OnPathHasChanged : IEvent
+{
     public List<Vector3> newPath;
 }
 
-public struct NoPossibleBoxFoundAfterClick : IEvent {}
+public struct OnEnemyReachedFinish : IEvent
+{
+    public int damage;
+}
 
+public struct OnWaveFinished : IEvent { }
+
+public struct OnNoPossibleBoxFoundAfterClick : IEvent { }

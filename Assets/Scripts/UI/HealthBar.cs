@@ -2,28 +2,46 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private GenericSlider healthSlider;
-    [SerializeField] 
+
+    [SerializeField]
     private Damageable damageable;
-    
-    private void Start() {
+
+    [SerializeField]
+    private float offsetFromOrigin;
+
+    private Vector3 localOrigin;
+
+    private Camera mainCamera;
+
+    private void Start()
+    {
+        localOrigin              =  transform.localPosition;
+        mainCamera               =  Camera.main;
         damageable.OnDamageTaken += UpdateBar;
         UpdateBar(damageable.Health, damageable.MaxHealth);
-    }
-    
-    private void OnDestroy() {
-        damageable.OnDamageTaken += UpdateBar;
-    }
-    
-    private void UpdateBar(int newHealth, int maxHealth)
-    {
-        float normalizedHealth = (float)newHealth / (float)maxHealth;
-        healthSlider.SetTargetValue(normalizedHealth);
     }
 
     private void LateUpdate()
     {
-        //transform.LookAt(Camera.main.transform); // face the camera
+        Vector3 direction = (mainCamera.transform.position - transform.position).normalized;
+        /*
+        Vector3 localDirection = transform.parent.InverseTransformDirection(direction);
+        transform.localPosition = localOrigin -
+                    new Vector3(localDirection.x, 0f, localDirection.z) * offsetFromOrigin;
+        */
+        transform.rotation = Quaternion.LookRotation(new Vector3(0, direction.y, 0f));
+    }
+
+    private void OnDestroy()
+    {
+        damageable.OnDamageTaken += UpdateBar;
+    }
+
+    private void UpdateBar(int newHealth, int maxHealth)
+    {
+        float normalizedHealth = newHealth / (float) maxHealth;
+        healthSlider.SetTargetValue(normalizedHealth);
     }
 }
