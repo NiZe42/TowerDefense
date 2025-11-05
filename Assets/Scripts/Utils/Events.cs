@@ -5,13 +5,15 @@ public interface IEvent { }
 
 public struct OnFreeBlock2X2Selected : IEvent
 {
-    public Vector2 blockCenter;
+    public Vector3 blockCenter;
 }
 
 public struct OnTowerSelected : IEvent
 {
-    public Vector2 towerCenter;
+    public int towerId;
 }
+
+public struct OnNothingSelected : IEvent { }
 
 public struct OnEnemyDestroyed : IEvent
 {
@@ -29,5 +31,3 @@ public struct OnEnemyReachedFinish : IEvent
 }
 
 public struct OnWaveFinished : IEvent { }
-
-public struct OnNoPossibleBoxFoundAfterClick : IEvent { }

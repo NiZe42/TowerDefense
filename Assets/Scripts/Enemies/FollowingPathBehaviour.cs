@@ -60,6 +60,7 @@ public class FollowingPathBehaviour : MoveBehaviour
     }
 
     // TODO: make it so enemy looks for the closest waypoint from previous closest waypoint index, not from the start.
+    // TODO: Also make it so enemy look forward and closest instead of closest.
     private void UpdatePath(OnPathHasChanged @event)
     {
         path = @event.newPath;

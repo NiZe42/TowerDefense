@@ -21,11 +21,11 @@ public class Enemy : Damageable
     [SerializeField]
     private GameObject visualPrefab;
 
+    public float moveSpeedMultiplier = 1;
+
     private int health;
 
     private EnemyVisual visualInstance;
-
-    public float moveSpeedMultiplier { get; protected set; } = 1;
 
     public override int MaxHealth { get => maxHealth; protected set => maxHealth = value; }
     public override int Health { get => health; protected set => health = value; }

@@ -58,6 +58,7 @@ public class WaveManager : MonoBehaviourSingleton<WaveManager>
 
     private void OnEnemyRemoved(IEvent @event)
     {
+        Debug.Log("enemy removed");
         activeEnemies--;
         if (activeEnemies != 0)
         {

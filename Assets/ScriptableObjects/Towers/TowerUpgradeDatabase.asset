@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0838b295d9754b04ca882f08726b3844, type: 3}
+  m_Name: TowerUpgradeDatabase
+  m_EditorClassIdentifier: 
+  basicTowers:
+  - {fileID: 11400000, guid: 1b4c4b41dd06487478fb6d037d05c3f4, type: 2}
+  - {fileID: 11400000, guid: 107d197358a3def46a53d723b863df23, type: 2}
+  - {fileID: 11400000, guid: 8ed53e2cd98598d4884eb53df0aab437, type: 2}
+  upgrades:
+  - fromLevel: {fileID: 11400000, guid: 107d197358a3def46a53d723b863df23, type: 2}
+    toLevel: {fileID: 11400000, guid: 3e1a4ff013c20984d84182c7808b9a43, type: 2}
+  - fromLevel: {fileID: 11400000, guid: 3e1a4ff013c20984d84182c7808b9a43, type: 2}
+    toLevel: {fileID: 11400000, guid: 4fe716383bf9be34f8c4f52befc55afc, type: 2}
+  - fromLevel: {fileID: 11400000, guid: 8ed53e2cd98598d4884eb53df0aab437, type: 2}
+    toLevel: {fileID: 11400000, guid: 49ea1246415f66047b4778e6aef1e639, type: 2}
+  - fromLevel: {fileID: 11400000, guid: 49ea1246415f66047b4778e6aef1e639, type: 2}
+    toLevel: {fileID: 11400000, guid: b07e17a0cc512b443944ed01753e6d85, type: 2}
+  - fromLevel: {fileID: 11400000, guid: 1b4c4b41dd06487478fb6d037d05c3f4, type: 2}
+    toLevel: {fileID: 11400000, guid: 5172729e2e93eee44997eb9b42803833, type: 2}
+  - fromLevel: {fileID: 11400000, guid: 5172729e2e93eee44997eb9b42803833, type: 2}
+    toLevel: {fileID: 11400000, guid: eede4d7fc3a0d3a429b38557f7db50af, type: 2}

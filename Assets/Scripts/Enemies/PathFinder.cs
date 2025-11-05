@@ -45,11 +45,6 @@ public class PathFinder
             return false;
         }
 
-        foreach (Vector2Int tileIndex in indexes)
-        {
-            Debug.Log(tileIndex);
-        }
-
         int tilesWidth  = tileGrid.tiles.GetLength(0);
         int tilesHeight = tileGrid.tiles.GetLength(1);
 
@@ -60,7 +55,7 @@ public class PathFinder
             for (var y = 0; y < tilesHeight; y++)
             {
                 Tile tile = tileGrid.tiles[x, y];
-                temporaryBlockedMap[x, y] = tile.IsOccupied();
+                temporaryBlockedMap[x, y] = tile.isOccupied;
             }
         }
 
@@ -69,12 +64,12 @@ public class PathFinder
             temporaryBlockedMap[tileIndex.x, tileIndex.y] = true;
         }
 
-        return TryFindPathWithBlock(temporaryBlockedMap);
+        return FindPath(temporaryBlockedMap) is not null;
     }
 
     // TODO make it so it recalculates more in favor of not changing path
     // If the path is the same distance, it should prefer one with most tiles that are in current path 
-    internal List<Tile> FindPath()
+    internal List<Tile> FindPath(bool[,] blockedTiles = null)
     {
         Tile startTile = tileGrid.tiles[startPositionIndex.x, startPositionIndex.y];
         Tile endTile   = tileGrid.tiles[endPositionIndex.x, endPositionIndex.y];
@@ -105,11 +100,30 @@ public class PathFinder
 
             // We check every neighbour, because we recalculate path only once in a while when map changes.
             // Because of that I choose possible safety above performance in this case.
+            // If block tiles are provided, calculates path with them instead of real ones.
             foreach (Tile neighbour in tileGrid.GetNeighbours(currentTileIndex))
             {
-                if (neighbour.IsOccupied())
+                if (blockedTiles != null)
                 {
-                    continue;
+                    if (!tileGrid.TryGetTileIndexFromTile(
+                        neighbour,
+                        out Vector2Int neighbourTileIndexCheck))
+                    {
+                        Debug.LogError("Could not find tile index for neighbour");
+                        return null;
+                    }
+
+                    if (blockedTiles[neighbourTileIndexCheck.x, neighbourTileIndexCheck.y])
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (neighbour.isOccupied)
+                    {
+                        continue;
+                    }
                 }
 
                 if (!tileGrid.TryGetTileIndexFromTile(neighbour, out Vector2Int neighbourTileIndex))
@@ -140,65 +154,6 @@ public class PathFinder
         }
 
         return null;
-    }
-
-    private bool TryFindPathWithBlock(bool[,] blockedMap)
-    {
-        Tile startTile = tileGrid.tiles[startPositionIndex.x, startPositionIndex.y];
-        Tile endTile   = tileGrid.tiles[endPositionIndex.x, endPositionIndex.y];
-
-        var openSet  = new SimplePriorityQueue<Tile>();
-        var cameFrom = new Dictionary<Tile, Tile>();
-        var gCost    = new Dictionary<Tile, float>();
-
-        gCost[startTile] = 0;
-        openSet.Enqueue(startTile, 0);
-
-        while (openSet.Count > 0)
-        {
-            Tile currentTile = openSet.Dequeue();
-
-            if (currentTile == endTile)
-            {
-                return true;
-            }
-
-            if (!tileGrid.TryGetTileIndexFromTile(currentTile, out Vector2Int currentTileIndex))
-            {
-                return false;
-            }
-
-            foreach (Tile neighbour in tileGrid.GetNeighbours(currentTileIndex))
-            {
-                if (!tileGrid.TryGetTileIndexFromTile(neighbour, out Vector2Int neighbourIndex))
-                {
-                    continue;
-                }
-
-                // use the temporary block map instead of neighbour.IsOccupied()
-                if (blockedMap[neighbourIndex.x, neighbourIndex.y])
-                {
-                    continue;
-                }
-
-                float newCost = gCost[currentTile] +
-                    Vector2Int.Distance(currentTileIndex, neighbourIndex);
-
-                if (!gCost.TryGetValue(neighbour, out float previousCost) || newCost < previousCost)
-                {
-                    gCost[neighbour]    = newCost;
-                    cameFrom[neighbour] = currentTile;
-
-                    float priority = newCost + Vector2Int.Distance(
-                        neighbourIndex,
-                        endPositionIndex);
-
-                    openSet.Enqueue(neighbour, priority);
-                }
-            }
-        }
-
-        return false;
     }
 
     private List<Tile> Reconstruct(Dictionary<Tile, Tile> cameFrom, Tile currentTile)

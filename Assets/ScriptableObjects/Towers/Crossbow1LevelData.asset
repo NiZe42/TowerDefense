@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8281ce2f4ab4a924ab746b076f4a811f, type: 3}
+  m_Name: Crossbow1LevelData
+  m_EditorClassIdentifier: 
+  levelName: Crossbow1
+  towerPrefab: {fileID: 5579043679417644312, guid: b7a7c231ca16ead438ae24537d87a20a, type: 3}
+  cost: 50
+  sellValue: 40
+  range: 7

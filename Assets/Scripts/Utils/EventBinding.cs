@@ -4,6 +4,7 @@ internal interface IEventBinding<T>
 {
     public Action<T> onEvent { get; set; }
     public Action onEventNoArgs { get; set; }
+    public Action<IEvent> onEventUntyped { get; set; }
     public void Clear();
 }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
@@ -26,9 +25,6 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
     internal GridPreset gridPreset;
 
     public IPathValidator pathValidator;
-
-    // TODO: consider this existence
-    internal Dictionary<Tower, Block2X2> placedTowers = new Dictionary<Tower, Block2X2>();
 
     public Tile[,] tiles { get; private set; }
     public Vector2 tileSize { get; private set; }
@@ -73,14 +69,6 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
     {
         selectedBlock = Block2X2.NullBlock2X2();
 
-        // Check if clicked tile already has a tower on it
-        if (TryGetTower(selectedTileIndex, out Tower tower))
-        {
-            Debug.Log("Checking out " + tower);
-            selectedBlock = placedTowers[tower];
-            return true;
-        }
-
         return TryGetFreePreferredBlock2X2(selectedTileIndex, hitPointWorld, out selectedBlock);
     }
 
@@ -118,22 +106,7 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
             shortestDistance   = distance;
         }
 
-        Debug.Log(freePreferredBlock.bottomLeftTile == Tile.NullTile());
         return freePreferredBlock.bottomLeftTile != Tile.NullTile();
-    }
-
-    private bool TryGetTower(Vector2Int tileIndex, out Tower outTower)
-    {
-        outTower = null;
-
-        Tower tower = tiles[tileIndex.x, tileIndex.y].currentOccupant;
-        if (tower is null)
-        {
-            return false;
-        }
-
-        outTower = tower;
-        return true;
     }
 
     public bool TryGetTileIndexFromWorldPosition(Vector3 worldPos, out Vector2Int tileIndex)
@@ -166,14 +139,12 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
         Vector3 worldPos,
         out Vector2Int[] tileIndexes)
     {
-        tileIndexes = Array.Empty<Vector2Int>();
+        tileIndexes = new Vector2Int[] { };
 
-        // Compute half tile size using floats to avoid integer division issues
-        float halfX = tileSize.x * 0.5f;
-        float halfY = tileSize.y * 0.5f;
-
-        // top-right tile (reference)
-        var topRightWorld = new Vector3(worldPos.x + halfX, 0f, worldPos.z + halfY);
+        var topRightWorld = new Vector3(
+            worldPos.x + tileSize.x * 0.5f,
+            0f,
+            worldPos.z + tileSize.y * 0.5f);
 
         if (!TryGetTileIndexFromWorldPosition(topRightWorld, out Vector2Int topRight))
         {
@@ -199,8 +170,10 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
 
         foreach (Vector2Int offset in PossibleBlockOffsets)
         {
-            Vector2Int possibleBottomLeftIndex = index + offset;
-            Vector2Int possibleTopRightIndex   = possibleBottomLeftIndex + Vector2Int.one;
+            Vector2Int possibleBottomLeftIndex  = index + offset;
+            Vector2Int possibleBottomRightIndex = possibleBottomLeftIndex + Vector2Int.up;
+            Vector2Int possibleTopRightIndex    = possibleBottomLeftIndex + Vector2Int.one;
+            Vector2Int possibleTopLeftIndex     = possibleBottomLeftIndex + Vector2Int.right;
 
             if (possibleBottomLeftIndex.x < 0 || possibleBottomLeftIndex.y < 0 ||
                 possibleBottomLeftIndex.x >= gridPreset.gridSize.x ||
@@ -216,17 +189,24 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
                 continue;
             }
 
+            if (tiles[possibleTopLeftIndex.x, possibleTopLeftIndex.y].isOccupied ||
+                tiles[possibleTopRightIndex.x, possibleTopRightIndex.y].isOccupied ||
+                tiles[possibleBottomLeftIndex.x, possibleBottomLeftIndex.y].isOccupied ||
+                tiles[possibleBottomRightIndex.x, possibleBottomRightIndex.y].isOccupied)
+            {
+                continue;
+            }
+
             blocks.Add(
                 new Block2X2(
-                    tiles[possibleBottomLeftIndex.x, possibleBottomLeftIndex.y + 1],
-                    tiles[possibleBottomLeftIndex.x + 1, possibleBottomLeftIndex.y + 1],
+                    tiles[possibleTopLeftIndex.x, possibleTopLeftIndex.y],
+                    tiles[possibleTopRightIndex.x, possibleTopRightIndex.y],
                     tiles[possibleBottomLeftIndex.x, possibleBottomLeftIndex.y],
-                    tiles[possibleBottomLeftIndex.x + 1, possibleBottomLeftIndex.y]));
+                    tiles[possibleBottomRightIndex.x, possibleBottomRightIndex.y]));
 
             count++;
         }
 
-        Debug.Log(count);
         return count;
     }
 

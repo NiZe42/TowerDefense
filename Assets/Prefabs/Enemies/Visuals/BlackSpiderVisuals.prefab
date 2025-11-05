@@ -553,8 +553,8 @@ Transform:
   - {fileID: 4603178966145099561}
   - {fileID: 4576415729326155193}
   - {fileID: 3078155957354259948}
-  - {fileID: 6372026716073606824}
   - {fileID: 5581455606328967903}
+  - {fileID: 6372026716073606824}
   - {fileID: 2956744059627480326}
   - {fileID: 6678606553570917608}
   - {fileID: 1057832993086950789}
@@ -3323,7 +3323,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.2836025, y: -0.21372604, z: -0.69799685, w: 0.621845}
   m_LocalPosition: {x: 0.017224634, y: -0.001704245, z: 0.0007461001}
-  m_LocalScale: {x: 0.9999999, y: 0.99999994, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1747967578361942558}

@@ -1,22 +1,20 @@
 using UnityEngine;
 
-public class Tower 
+public class Tower : MonoBehaviour
 {
-    public TowerBlock block { get; private set; }
+    [SerializeField]
+    private GameObject towerVisualsPrefab;
 
-    public Tower() {
-        
-    }
+    [SerializeField]
+    private ShootingBehaviour shootingBehaviour;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private TowerVisuals towerVisualsInstance;
+    public int id { get; private set; }
+
+    public void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        towerVisualsInstance =
+            Instantiate(towerVisualsPrefab, transform.position, Quaternion.identity)
+                .GetComponent<TowerVisuals>();
     }
 }

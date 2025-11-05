@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 343587906189020772}
   - component: {fileID: 3248363409341001652}
   - component: {fileID: 6125008651243430654}
+  - component: {fileID: 7816977827631596434}
   m_Layer: 0
   m_Name: BlackSpiderEnemy
   m_TagString: Untagged
@@ -52,6 +53,7 @@ MonoBehaviour:
   finishDamage: 0
   moveBehaviour: {fileID: 6125008651243430654}
   visualPrefab: {fileID: 1469234003675428488, guid: 60e8ebdf0b08de14dabef6a25a917268, type: 3}
+  moveSpeedMultiplier: 1
 --- !u!114 &6125008651243430654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +66,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486ff3b583968cf4aa3dfa9f273f0a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7816977827631596434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6567928568135250949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6801074ade4e0a49ba698b22b6f3be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedTargets:
+  - {fileID: 3248363409341001652}
 --- !u!1001 &5433784887276279331
 PrefabInstance:
   m_ObjectHideFlags: 0
