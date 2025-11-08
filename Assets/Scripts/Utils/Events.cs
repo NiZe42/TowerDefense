@@ -30,4 +30,21 @@ public struct OnEnemyReachedFinish : IEvent
     public int damage;
 }
 
+public struct OnTowerBought : IEvent
+{
+    public int cost;
+}
+
+public struct OnTowerUpgraded : IEvent
+{
+    public int cost;
+}
+
+public struct OnTowerSold : IEvent
+{
+    public int moneyGained;
+}
+
+public struct OnAllWavesFinished : IEvent { }
+
 public struct OnWaveFinished : IEvent { }

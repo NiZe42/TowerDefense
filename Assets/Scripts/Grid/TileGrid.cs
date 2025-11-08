@@ -253,4 +253,17 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
 
         return false;
     }
+
+    public void ChangeBlockOccupancy(Vector3 blockPosition, bool newOccupancy)
+    {
+        if (!TryGetTileIndexesFromBlockCenterPosition(blockPosition, out Vector2Int[] tileIndexes))
+        {
+            return;
+        }
+
+        foreach (Vector2Int index in tileIndexes)
+        {
+            tiles[index.x, index.y].isOccupied = newOccupancy;
+        }
+    }
 }

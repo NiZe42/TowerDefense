@@ -66,5 +66,10 @@ public class WaveManager : MonoBehaviourSingleton<WaveManager>
         }
 
         EventBus.Instance.InvokeEvent(new OnWaveFinished());
+
+        if (currentWaveIndex == waves.Length - 1)
+        {
+            EventBus.Instance.InvokeEvent(new OnAllWavesFinished());
+        }
     }
 }

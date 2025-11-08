@@ -13,23 +13,24 @@ public class SlowBeamShootingBehaviour : ShootingBehaviour
 
     private SlowEffect appliedSlow;
 
-    private bool isShooting;
     private VolumetricLineBehavior lineInstance;
 
     private void Awake()
     {
         lineInstance = Instantiate(
             lineBehaviourPrefab,
-            firePoint.position,
+            transform.position,
             Quaternion.identity,
-            transform);
+            transform).GetComponent<VolumetricLineBehavior>();
 
         lineInstance.gameObject.SetActive(false);
     }
 
     public override void Update()
     {
-        if (!target)
+        base.Update();
+
+        if (!currentTarget)
         {
             return;
         }
@@ -40,16 +41,14 @@ public class SlowBeamShootingBehaviour : ShootingBehaviour
         }
 
         lineInstance.StartPos = firePoint.position;
-        lineInstance.EndPos   = target.position;
+        lineInstance.EndPos   = currentTarget.position;
     }
 
-    public override void StartShooting(Transform newTarget)
+    public override void StartShooting()
     {
-        base.StartShooting(newTarget);
+        base.StartShooting();
 
-        isShooting = true;
-
-        if (!target.TryGetComponent(out Enemy enemy))
+        if (!currentTarget.TryGetComponent(out Enemy enemy))
         {
             return;
         }

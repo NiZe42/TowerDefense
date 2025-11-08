@@ -25,4 +25,6 @@ public class SlowEffect : Effect<Enemy>
         base.StopEffect();
         target.moveSpeedMultiplier /= multiplier;
     }
+
+    public override void TriggerEffect() { }
 }

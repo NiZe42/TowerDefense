@@ -6,7 +6,6 @@ public interface IEffect
     Type TargetType { get; }
     void Apply();
     void StopEffect();
-
     void Tick();
     event Action<IEffect> OnCompleted;
 }
@@ -25,6 +24,7 @@ public abstract class Effect<TTarget> : IEffect where TTarget : MonoBehaviour
         this.durationSeconds =  durationSeconds;
         this.intervalSeconds =  intervalSeconds;
         timer                =  new IntervalTimer(durationSeconds, intervalSeconds);
+        timer.OnInterval     += TriggerEffect;
         timer.OnEnd          += StopEffect;
     }
 
@@ -57,4 +57,6 @@ public abstract class Effect<TTarget> : IEffect where TTarget : MonoBehaviour
     }
 
     public event Action<IEffect> OnCompleted;
+
+    public abstract void TriggerEffect();
 }

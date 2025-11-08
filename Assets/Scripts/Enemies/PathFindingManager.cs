@@ -27,23 +27,17 @@ public class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>, IP
         EventBus.Instance.InvokeEvent(
             new OnPathHasChanged
                 { newPath = currentPath.Select(tile => tile.worldPosition).ToList() });
+
+        EventBus.Instance.Subscribe<OnTowerBought>(RecalculatePath);
+        EventBus.Instance.Subscribe<OnTowerSold>(RecalculatePath);
     }
 
-    public void Update()
+    public override void OnDestroy()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("pressed");
-            currentPath = pathFinder.FindPath();
+        base.OnDestroy();
 
-            EventBus.Instance.InvokeEvent(
-                new OnPathHasChanged
-                    { newPath = currentPath.Select(tile => tile.worldPosition).ToList() });
-
-            // We need to pass List<Tiles> into path visualizer.
-            // I think Tile is strictly a grid property, so I created "local" event.
-            OnPathUpdated?.Invoke(currentPath);
-        }
+        EventBus.Instance.Unsubscribe<OnTowerBought>(RecalculatePath);
+        EventBus.Instance.Unsubscribe<OnTowerSold>(RecalculatePath);
     }
 
     public bool IsPathStillValid(Vector3 blockedBlockCenterPosition)
@@ -54,5 +48,18 @@ public class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>, IP
     public List<Vector3> GetCurrentPath()
     {
         return currentPath.Select(tile => tile.worldPosition).ToList();
+    }
+
+    public void RecalculatePath()
+    {
+        currentPath = pathFinder.FindPath();
+
+        EventBus.Instance.InvokeEvent(
+            new OnPathHasChanged
+                { newPath = currentPath.Select(tile => tile.worldPosition).ToList() });
+
+        // We need to pass List<Tiles> into path visualizer.
+        // I think Tile is strictly a grid property, so I created "local" event.
+        OnPathUpdated?.Invoke(currentPath);
     }
 }

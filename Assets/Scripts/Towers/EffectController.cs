@@ -65,7 +65,19 @@ public class EffectController : MonoBehaviour
             return;
         }
 
-        activeEffects[type].Add(effect);
+        List<IEffect> effectsForTarget = activeEffects[type];
+
+        // Need this to enforce only 1 effect
+        Type    effectType     = effect.GetType();
+        IEffect existingEffect = effectsForTarget.FirstOrDefault(e => e.GetType() == effectType);
+
+        if (existingEffect != null)
+        {
+            existingEffect.StopEffect();
+            effectsForTarget.Remove(existingEffect);
+        }
+
+        effectsForTarget.Add(effect);
         effect.OnCompleted += OnEffectEnded;
     }
 

@@ -3,9 +3,6 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviourSingleton<InputManager>
 {
-    [SerializeField]
-    private GameObject towerPrefab;
-
     private Camera activeCamera;
     private LayerMask mask;
     private LayerMask raycastMask;
@@ -81,17 +78,6 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
         Debug.Log("invoking free");
         EventBus.Instance.InvokeEvent(
             new OnFreeBlock2X2Selected { blockCenter = possibleSelectedBlock.GetCenterPosition() });
-
-        Tile[] tiles = possibleSelectedBlock.GetAllTiles();
-        GameObject tower = Instantiate(
-            towerPrefab,
-            possibleSelectedBlock.GetCenterPosition(),
-            Quaternion.identity);
-
-        foreach (Tile tile in tiles)
-        {
-            tile.isOccupied = true;
-        }
     }
 
     private void HandleTower(GameObject towerObject)
