@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerName: Cannon Tower 3
   towerPrefab: {fileID: 2683960473733824492, guid: 5e5573fa37d1bef41a90f3c9d90e9bde, type: 3}
-  towerIcon: {fileID: 21300000, guid: 787c1f4cfd3f0e0439aa5d57ca935750, type: 3}
-  cost: 80
-  cumulativeSellValue: 0
-  range: 9
-  damage: 0
-  attackCooldown: 0
+  towerIcon: {fileID: 21300000, guid: f6aed911e9207274c9c113d660adc4a5, type: 3}
+  cost: 90
+  cumulativeSellValue: 210
+  range: 3
+  damage: 3
+  attackCooldown: 2
   shootingType: 1

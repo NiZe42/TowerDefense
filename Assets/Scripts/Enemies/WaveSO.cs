@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     ScriptableObject that defines a wave of enemies for the game.
+/// </summary>
 [CreateAssetMenu(fileName = "WaveSO", menuName = "Waves/WaveSO")]
 public class WaveSO : ScriptableObject
 {

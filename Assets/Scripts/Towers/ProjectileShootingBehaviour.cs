@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     Specifies behaviour when something is shooting projectiles at a target.
+/// </summary>
 [Serializable]
 public class ProjectileShootingBehaviour : ShootingBehaviour
 {
@@ -23,6 +26,13 @@ public class ProjectileShootingBehaviour : ShootingBehaviour
 
     private void Shoot()
     {
+        Debug.Log($"not exists = {currentTarget is null}");
+
+        if (currentTarget == null)
+        {
+            return;
+        }
+
         Vector3    direction = (currentTarget.position - firePoint.position).normalized;
         Quaternion rotation  = Quaternion.LookRotation(direction);
 

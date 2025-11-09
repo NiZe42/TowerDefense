@@ -3,6 +3,11 @@ using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
+/// <summary>
+///     Grid on which everything is happening.
+///     Handles queries about tiles, world positions or indexes.
+/// </summary>
+[RequireComponent(typeof(GridBuilder))]
 public class TileGrid : MonoBehaviourSingleton<TileGrid>
 {
     private static readonly Vector2Int[] PossibleBlockOffsets =
@@ -21,8 +26,13 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
         new Vector2Int(0, -1)
     };
 
+    public GridPreset gridPreset;
+
     [SerializeField]
-    internal GridPreset gridPreset;
+    private bool isDebug;
+
+    [SerializeField]
+    private GridBuilder gridBuilder;
 
     public IPathValidator pathValidator;
 
@@ -33,7 +43,10 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
     {
         base.Awake();
         GenerateTiles();
+        gridBuilder.Initialize(this);
     }
+
+    public void Start() { }
 
     public void GenerateTiles()
     {
@@ -54,6 +67,24 @@ public class TileGrid : MonoBehaviourSingleton<TileGrid>
 
                 tiles[x, y] = new Tile(worldPosition);
             }
+        }
+
+        if (isDebug)
+        {
+            tiles[1, 1].isOccupied = true;
+            tiles[1, 2].isOccupied = true;
+            tiles[2, 1].isOccupied = true;
+            tiles[2, 2].isOccupied = true;
+
+            tiles[1, 3].isOccupied = true;
+            tiles[2, 3].isOccupied = true;
+            tiles[1, 4].isOccupied = true;
+            tiles[2, 4].isOccupied = true;
+
+            tiles[3, 1].isOccupied = true;
+            tiles[3, 2].isOccupied = true;
+            tiles[4, 1].isOccupied = true;
+            tiles[4, 2].isOccupied = true;
         }
     }
 

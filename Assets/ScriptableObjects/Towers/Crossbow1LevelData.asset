@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerName: Crossbow Tower 1
   towerPrefab: {fileID: 5579043679417644312, guid: b7a7c231ca16ead438ae24537d87a20a, type: 3}
-  towerIcon: {fileID: 21300000, guid: ccf7150d5f67ade44b5704db25970c05, type: 3}
+  towerIcon: {fileID: 21300000, guid: 48b911ec7c6dc3b4db94796c99c40de9, type: 3}
   cost: 50
-  cumulativeSellValue: 0
-  range: 10
+  cumulativeSellValue: 40
+  range: 2
   damage: 2
   attackCooldown: 1
   shootingType: 0

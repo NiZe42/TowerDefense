@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: accc4743f25026a4093ef844ef93a1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePoint: {fileID: 8204900366035733748}
 --- !u!1001 &1866895752585079944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -308,3 +309,8 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2169266645552893261, guid: 0ba0c22a0613acc4a8206490ef189e31, type: 3}
+--- !u!4 &8204900366035733748 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1329380249762036386, guid: 0ba0c22a0613acc4a8206490ef189e31, type: 3}
+  m_PrefabInstance: {fileID: 7183031546598930006}
+  m_PrefabAsset: {fileID: 0}

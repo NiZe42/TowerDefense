@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Projectile type, that covers area on impact.
+/// </summary>
 public class AOEProjectile : Projectile
 {
     [SerializeField]
@@ -21,7 +24,7 @@ public class AOEProjectile : Projectile
             target.transform.position,
             speed * Time.deltaTime);
 
-        if ((transform.position - target.position).sqrMagnitude <= float.Epsilon)
+        if ((transform.position - target.position).sqrMagnitude <= 0.05f)
         {
             OnHit();
         }

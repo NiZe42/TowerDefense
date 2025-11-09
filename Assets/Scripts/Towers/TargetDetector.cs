@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Script, that keep track of every Enemy inside the collider
+/// </summary>
 public class TargetDetector : MonoBehaviour
 {
     [SerializeField]
@@ -10,9 +13,13 @@ public class TargetDetector : MonoBehaviour
     [HideInInspector]
     public List<Transform> enemiesInRange = new List<Transform>();
 
+    private void Awake() { }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.TryGetComponent(out Enemy enemy))
+        Debug.Log("Collided");
+        var enemy = other.GetComponentInParent<Enemy>();
+        if (enemy is null)
         {
             return;
         }
@@ -23,13 +30,39 @@ public class TargetDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.TryGetComponent(out Enemy enemy))
+        var enemy = other.GetComponentInParent<Enemy>();
+        if (enemy is null)
         {
             return;
         }
 
         enemiesInRange.Remove(enemy.transform);
         OnEnemyExitedRange?.Invoke(enemy.transform);
+    }
+
+    public void Initialize(float radius)
+    {
+        sphereCollider.radius = radius;
+
+        Vector3 center = transform.position + sphereCollider.center;
+
+        Collider[] hits = Physics.OverlapSphere(center, sphereCollider.radius);
+
+        foreach (Collider hit in hits)
+        {
+            var enemy = hit.gameObject.GetComponentInParent<Enemy>();
+            if (enemy is null)
+            {
+                return;
+            }
+
+            if (enemiesInRange.Contains(enemy.transform))
+            {
+                continue;
+            }
+
+            enemiesInRange.Add(enemy.transform);
+        }
     }
 
     public event Action<Transform> OnEnemyEnteredRange;

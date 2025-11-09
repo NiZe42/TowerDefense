@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Base abstract projectile class that defines general behaviour of projectiles.
+/// </summary>
 public abstract class Projectile : MonoBehaviour
 {
     protected int damage;

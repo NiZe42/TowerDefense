@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Predicates, that evaluates to true after specific time passes.
+/// </summary>
 public class TimerPredicate : IPredicate
 {
     private readonly float duration;

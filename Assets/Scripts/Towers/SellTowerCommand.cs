@@ -1,3 +1,7 @@
+/// <summary>
+///     Part of command pattern.
+///     Executes selling of a tower.
+/// </summary>
 public class SellTowerCommand : ICommand
 {
     private readonly int towerId;

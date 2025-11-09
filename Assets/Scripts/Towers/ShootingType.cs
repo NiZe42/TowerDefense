@@ -1,5 +1,8 @@
 using System;
 
+/// <summary>
+///     Provides types of shooting behaviours.
+/// </summary>
 [Serializable]
 public enum ShootingType
 {
@@ -8,6 +11,9 @@ public enum ShootingType
     Debuff = 2
 }
 
+/// <summary>
+///     A helper class for types of shooting behaviours.
+/// </summary>
 public static class ShootingTypeHelper
 {
     public static string ToString(this ShootingType type)

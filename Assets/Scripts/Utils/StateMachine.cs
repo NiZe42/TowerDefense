@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+///     State machine that can allow only for specific <see cref="StateNode" /> and <see cref="StateTransition" />>
+/// </summary>
 public class StateMachine
 {
     private readonly Dictionary<Type, StateNode> nodes = new Dictionary<Type, StateNode>();

@@ -1,28 +1,28 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Singleton, that ensures that it is the only one object in loaded scenes.
+/// </summary>
 public class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviourSingleton<T>
 {
-    private static T instance;
-    public static T Instance{ get=>instance; }
-    
+    public static T Instance { get; private set; }
+
     public virtual void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(this);
             return;
         }
-        instance = this as T;
+
+        Instance = this as T;
     }
-    
+
     public virtual void OnDestroy()
     {
-        if(instance == this)
+        if (Instance == this)
         {
-            instance = null;
+            Instance = null;
         }
     }
 }

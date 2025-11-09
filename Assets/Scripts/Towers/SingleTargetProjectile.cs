@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Projectile type, that deals damage only to selected target.
+/// </summary>
 public class SingleTargetProjectile : Projectile
 {
     private float rotateSpeed;
@@ -7,7 +10,7 @@ public class SingleTargetProjectile : Projectile
     public override void Initialize(Transform newTarget, int damage, float speed)
     {
         base.Initialize(newTarget, damage, speed);
-        rotateSpeed = speed * 2f;
+        rotateSpeed = speed * 5f;
     }
 
     protected override void Move()
@@ -28,8 +31,9 @@ public class SingleTargetProjectile : Projectile
 
         transform.position += speed * Time.deltaTime * transform.forward;
 
-        if ((transform.position - target.position).sqrMagnitude <= float.Epsilon)
+        if ((transform.position - target.position).sqrMagnitude <= .05f)
         {
+            Debug.Log("reached it");
             OnHit();
         }
     }

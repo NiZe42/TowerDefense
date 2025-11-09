@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Scriptable object, that holds information about specific tower of a specific level.
+/// </summary>
 [CreateAssetMenu(fileName = "TowerLevel", menuName = "Towers/TowerLevelDataSO")]
 public class TowerLevelDataSO : ScriptableObject
 {

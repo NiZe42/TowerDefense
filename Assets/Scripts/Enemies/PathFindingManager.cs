@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// Designed to have only 1 grid in the world.
+/// <summary>
+///     Manages pathfinding logic for enemies on a <see cref="TileGrid" />.
+///     Provides access to the current path and allows recalculation when the grid changes.
+/// </summary>
+[RequireComponent(typeof(PathVisualizer))]
 public class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>, IPathValidator
 {
     internal static Action<List<Tile>> OnPathUpdated;
+
+    [SerializeField]
+    private PathVisualizer pathVisualizer;
+
     internal List<Tile> currentPath = new List<Tile>();
     private Transform finishPosition;
 
@@ -18,15 +26,16 @@ public class PathFindingManager : MonoBehaviourSingleton<PathFindingManager>, IP
 
     public void Start()
     {
-        tileGrid       = FindAnyObjectByType<TileGrid>();
+        tileGrid       = TileGrid.Instance;
         startTransform = GameObject.FindGameObjectWithTag("StartPosition").transform;
         finishPosition = GameObject.FindGameObjectWithTag("FinishPosition").transform;
         pathFinder     = new PathFinder(tileGrid, startTransform.position, finishPosition.position);
         currentPath    = pathFinder.FindPath();
-        OnPathUpdated?.Invoke(currentPath);
-        EventBus.Instance.InvokeEvent(
-            new OnPathHasChanged
-                { newPath = currentPath.Select(tile => tile.worldPosition).ToList() });
+
+        Debug.Log("Intialized path finding");
+        pathVisualizer.Initialize(tileGrid, currentPath);
+
+        // OnPathUpdated?.Invoke(currentPath);
 
         EventBus.Instance.Subscribe<OnTowerBought>(RecalculatePath);
         EventBus.Instance.Subscribe<OnTowerSold>(RecalculatePath);

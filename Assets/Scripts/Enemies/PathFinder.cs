@@ -8,6 +8,11 @@ public class PathFinder
     private readonly TileGrid tileGrid;
     internal List<Tile> pathTiles;
 
+    /// <summary>
+    ///     Implements A* pathfinding on a <see cref="TileGrid" />.
+    ///     Provides methods to calculate a path between two positions and check if it is still possible if some tiles are
+    ///     blocked.
+    /// </summary>
     internal PathFinder(TileGrid grid, Vector3 startPosition, Vector3 endPosition)
     {
         tileGrid = grid;

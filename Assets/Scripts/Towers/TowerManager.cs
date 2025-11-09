@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Manager-type class, that keeps track of existing towers and executes commands.
+/// </summary>
 public class TowerManager : MonoBehaviourSingleton<TowerManager>
 {
     public TowerUpgradeDatabaseSO towerUpgradeDatabase;

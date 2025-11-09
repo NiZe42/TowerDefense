@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: accc4743f25026a4093ef844ef93a1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePoint: {fileID: 2457295688452449227}
 --- !u!1001 &3488311844348811625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,6 +135,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4181351965007255123}
   m_SourcePrefab: {fileID: 100100000, guid: 0ba0c22a0613acc4a8206490ef189e31, type: 3}
+--- !u!4 &2457295688452449227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1329380249762036386, guid: 0ba0c22a0613acc4a8206490ef189e31, type: 3}
+  m_PrefabInstance: {fileID: 3488311844348811625}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4026851791484206722 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0ba0c22a0613acc4a8206490ef189e31, type: 3}

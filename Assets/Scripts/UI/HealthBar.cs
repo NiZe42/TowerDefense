@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Slider responsible for showing amount of health for any <see cref="Damageable" />>
+/// </summary>
 public class HealthBar : MonoBehaviour
 {
     [SerializeField]
@@ -41,7 +44,7 @@ public class HealthBar : MonoBehaviour
 
     private void UpdateBar(int newHealth, int maxHealth)
     {
-        float normalizedHealth = newHealth / (float) maxHealth;
+        float normalizedHealth = newHealth / (float)maxHealth;
         healthSlider.SetTargetValue(normalizedHealth);
     }
 }

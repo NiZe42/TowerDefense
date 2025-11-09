@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+///     Manages the spawning of enemy waves in the game.
+///     Handles wave timing, enemy spawning, and tracking active enemies.
+/// </summary>
 public class WaveManager : MonoBehaviourSingleton<WaveManager>
 {
     [SerializeField]
@@ -27,8 +31,10 @@ public class WaveManager : MonoBehaviourSingleton<WaveManager>
             return;
         }
 
+        Debug.Log(waves[currentWaveIndex]);
         StartCoroutine(SpawnWave(waves[currentWaveIndex]));
         currentWaveIndex++;
+        EventBus.Instance.InvokeEvent(new OnWaveStarted { index = currentWaveIndex });
     }
 
     private IEnumerator SpawnWave(WaveSO wave)
@@ -54,12 +60,17 @@ public class WaveManager : MonoBehaviourSingleton<WaveManager>
     {
         Instantiate(prefab, startTransform.position, Quaternion.identity);
         activeEnemies++;
+        EventBus.Instance.InvokeEvent(
+            new OnActiveEnemiesNumberChanged { newNumber = activeEnemies });
     }
 
     private void OnEnemyRemoved(IEvent @event)
     {
         Debug.Log("enemy removed");
         activeEnemies--;
+        EventBus.Instance.InvokeEvent(
+            new OnActiveEnemiesNumberChanged { newNumber = activeEnemies });
+
         if (activeEnemies != 0)
         {
             return;

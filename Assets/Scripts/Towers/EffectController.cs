@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+///     Object responsible for controlling overtime effects on specific object.
+///     Can specify which components should be able to receive effects.
+/// </summary>
 public class EffectController : MonoBehaviour
 {
     [SerializeField]

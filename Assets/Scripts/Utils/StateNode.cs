@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 
+/// <summary>
+///     Node from <see cref="StateMachine" />>, that holds current state and all of its transitions to next state Nodes.
+/// </summary>
 public class StateNode
 {
     public IState state;

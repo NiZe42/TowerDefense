@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Defines a tower, that would have Visuals and ShootingBehavior.
+/// </summary>
 public class Tower : MonoBehaviour
 {
     [SerializeField]
@@ -30,7 +33,7 @@ public class Tower : MonoBehaviour
 
         shootingBehaviour.Initialize(
             towerData.damage,
-            transform,
+            towerVisualsInstance.firePoint,
             towerData.range,
             towerData.attackCooldown);
     }

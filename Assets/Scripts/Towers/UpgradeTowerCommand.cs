@@ -1,3 +1,7 @@
+/// <summary>
+///     Part of a command pattern.
+///     Executes an Upgrade of a tower.
+/// </summary>
 public class UpgradeTowerCommand : ICommand
 {
     private readonly TowerLevelDataSO newTowerLevelData;

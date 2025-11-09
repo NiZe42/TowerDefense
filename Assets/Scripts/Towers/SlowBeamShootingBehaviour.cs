@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using VolumetricLines;
 
+/// <summary>
+///     Shooting behavior, that applies slowing effect to a target.
+/// </summary>
 [Serializable]
 public class SlowBeamShootingBehaviour : ShootingBehaviour
 {
@@ -40,8 +43,8 @@ public class SlowBeamShootingBehaviour : ShootingBehaviour
             return;
         }
 
-        lineInstance.StartPos = firePoint.position;
-        lineInstance.EndPos   = currentTarget.position;
+        lineInstance.StartPos = lineInstance.transform.InverseTransformPoint(firePoint.position);
+        lineInstance.EndPos = lineInstance.transform.InverseTransformPoint(currentTarget.position);
     }
 
     public override void StartShooting()
@@ -65,9 +68,10 @@ public class SlowBeamShootingBehaviour : ShootingBehaviour
 
     public override void StopShooting()
     {
+        base.StopShooting();
+        Debug.Log("Stopping slow effect");
         appliedSlow?.StopEffect();
         appliedSlow = null;
-        isShooting  = false;
 
         lineInstance.gameObject.SetActive(false);
     }

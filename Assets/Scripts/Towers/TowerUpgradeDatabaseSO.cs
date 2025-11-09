@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Database, that holds all connection between different tower level instances.
+///     Also holds basic towers.
+/// </summary>
 [CreateAssetMenu(fileName = "TowerUpgradeDatabaseSO", menuName = "Towers/Upgrade Database")]
 public class TowerUpgradeDatabaseSO : ScriptableObject
 {

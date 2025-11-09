@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
+/// <summary>
+///     Manager-type class that provides access to most of UI in the game.
+/// </summary>
 public class UIManager : MonoBehaviourSingleton<UIManager>
 {
     [SerializeField]
@@ -14,9 +18,26 @@ public class UIManager : MonoBehaviourSingleton<UIManager>
     [SerializeField]
     private Canvas UICanvas;
 
+    [SerializeField]
+    private PlayerHealthUI playerHealthUI;
+
+    [SerializeField]
+    private GameObject floatingMoneyPrefab;
+
+    [SerializeField]
+    private PlayerMoneyUI playerMoneyUI;
+
+    [SerializeField]
+    private GameStateUI gameStateUI;
+
+    [SerializeField]
+    private TextMeshProUGUI endGameResult;
+
     private RadialMenu currentRadialMenu;
 
     private GameObject currentSelection;
+
+    public IEconomyValidator economyValidator;
 
     private bool isSelecting;
 
@@ -41,6 +62,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager>
         EventBus.Instance.Subscribe<OnFreeBlock2X2Selected>((Action<IEvent>)ProcessSelection);
         EventBus.Instance.Subscribe<OnTowerSelected>((Action<IEvent>)ProcessSelection);
         EventBus.Instance.Subscribe<OnNothingSelected>((Action<IEvent>)ProcessSelection);
+        EventBus.Instance.Subscribe<OnEnemyDestroyed>(ShowFloatingMoney);
     }
 
     public override void OnDestroy()
@@ -50,6 +72,7 @@ public class UIManager : MonoBehaviourSingleton<UIManager>
             EventBus.Instance.Unsubscribe<OnFreeBlock2X2Selected>((Action<IEvent>)ProcessSelection);
             EventBus.Instance.Unsubscribe<OnTowerSelected>((Action<IEvent>)ProcessSelection);
             EventBus.Instance.Unsubscribe<OnNothingSelected>((Action<IEvent>)ProcessSelection);
+            EventBus.Instance.Unsubscribe<OnEnemyDestroyed>(ShowFloatingMoney);
         }
 
         base.OnDestroy();
@@ -116,10 +139,56 @@ public class UIManager : MonoBehaviourSingleton<UIManager>
         currentRadialMenu.GetComponent<RectTransform>().anchoredPosition = uiPosition;
     }
 
+    public void ShowFloatingMoney(OnEnemyDestroyed @event)
+    {
+        if (floatingMoneyPrefab == null)
+        {
+            Debug.LogWarning("FloatingMoneyPrefab not assigned!");
+            return;
+        }
+
+        GameObject floatingMoney = Instantiate(
+            floatingMoneyPrefab,
+            @event.deathPosition + Vector3.up * 2f,
+            Quaternion.identity);
+
+        var floatingText = floatingMoney.GetComponent<FloatingText>();
+        floatingText.Initialize($"+{@event.droppedMoney}", Color.yellow);
+    }
+
     public void ClearSelection()
     {
         currentRadialMenu.gameObject.SetActive(false);
         currentSelection.SetActive(false);
         isSelecting = false;
+    }
+
+    public PlayerHealthUI GetPlayerHealthUI()
+    {
+        return playerHealthUI;
+    }
+
+    public PlayerMoneyUI GetPlayerMoneyUI()
+    {
+        return playerMoneyUI;
+    }
+
+    public GameStateUI GetGameStateUI()
+    {
+        return gameStateUI;
+    }
+
+    public void TriggerEndGame(bool hasWon)
+    {
+        if (hasWon)
+        {
+            endGameResult.text = "You have won!\nPress R to restart.";
+        }
+        else
+        {
+            endGameResult.text = "You have lost!\nPress R to restart.";
+        }
+
+        endGameResult.gameObject.SetActive(true);
     }
 }

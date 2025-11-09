@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     Interface that specifies contract for effects.
+/// </summary>
 public interface IEffect
 {
     Type TargetType { get; }
@@ -10,6 +13,10 @@ public interface IEffect
     event Action<IEffect> OnCompleted;
 }
 
+/// <summary>
+///     Templated implementation of an Effect.
+///     Allows to create generic overtime effects.
+/// </summary>
 public abstract class Effect<TTarget> : IEffect where TTarget : MonoBehaviour
 {
     protected readonly float durationSeconds;

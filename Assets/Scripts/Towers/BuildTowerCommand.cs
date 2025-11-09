@@ -1,7 +1,9 @@
-// BuildTowerCommand.cs
-
 using UnityEngine;
 
+/// <summary>
+///     Part of command pattern.
+///     Executes building of a tower.
+/// </summary>
 public class BuildTowerCommand : ICommand
 {
     private readonly Vector3 position;

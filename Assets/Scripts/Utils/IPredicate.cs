@@ -1,3 +1,6 @@
+/// <summary>
+///     Base contract for predicates.
+/// </summary>
 public interface IPredicate
 {
     public bool Evaluate();

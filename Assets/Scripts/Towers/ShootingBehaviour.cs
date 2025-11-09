@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     Base abstract class that defines a contract of how shooting should work.
+/// </summary>
 [Serializable]
 public abstract class ShootingBehaviour : MonoBehaviour
 {
@@ -19,24 +22,19 @@ public abstract class ShootingBehaviour : MonoBehaviour
 
     public virtual void Update()
     {
-        if (currentTarget is null)
-        {
-            TrySelectTarget();
-        }
-
-        if (currentTarget is not null)
-        {
-            if (!isShooting)
-            {
-                StartShooting();
-            }
-        }
-        else
+        if (currentTarget == null)
         {
             if (isShooting)
             {
                 StopShooting();
             }
+
+            TrySelectTarget();
+        }
+
+        if (currentTarget != null && !isShooting)
+        {
+            StartShooting();
         }
     }
 
@@ -57,8 +55,7 @@ public abstract class ShootingBehaviour : MonoBehaviour
         this.range          = range;
         this.attackCooldown = attackCooldown;
 
-        SphereCollider sphere = targetDetector.GetSphereCollider();
-        sphere.radius = range;
+        targetDetector.Initialize(this.range);
 
         targetDetector.OnEnemyEnteredRange += EnemyEnteredRange;
         targetDetector.OnEnemyExitedRange  += EnemyExitedRange;
@@ -76,6 +73,8 @@ public abstract class ShootingBehaviour : MonoBehaviour
 
     public void TrySelectTarget()
     {
+        targetDetector.enemiesInRange.RemoveAll(target => target == null);
+
         if (targetDetector.enemiesInRange.Count > 0)
         {
             currentTarget = targetDetector.enemiesInRange[0];

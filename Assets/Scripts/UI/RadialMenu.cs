@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Pop up, that should be shown after selection event, so player can build/sell from this menu.
+/// </summary>
 public class RadialMenu : MonoBehaviour
 {
     [SerializeField]
@@ -33,6 +36,17 @@ public class RadialMenu : MonoBehaviour
 
         DisableAllButtons();
         gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        foreach (SelectionButton button in buildButtons)
+        {
+            int  towerCost = button.levelData.cost;
+            bool canAfford = UIManager.Instance.economyValidator.CanAfford(towerCost);
+
+            button.SetInteractable(canAfford);
+        }
     }
 
     public void BuildMenu(
@@ -103,18 +117,22 @@ public class RadialMenu : MonoBehaviour
         Vector3 towerPosition,
         int currentTowerId = int.MinValue)
     {
+        button.levelData   = levelData;
+        button.price.text  = levelData.cost + " coins";
         button.label.text  = levelData.towerName;
         button.icon.sprite = levelData.towerIcon;
         button.button.onClick.AddListener(() =>
         {
             confirmationPanel.ShowBuildConfirmation(levelData, towerPosition, currentTowerId);
         });
+
+        button.SetInteractable(UIManager.Instance.economyValidator.CanAfford(levelData.cost));
     }
 
     private void SetupSellButton(SelectionButton button, int towerId, int sellValue)
     {
-        button.label.text  = "Sell";
-        button.icon.sprite = null;
+        button.label.text = "Sell";
+        button.price.text = $"{sellValue} coins";
         button.button.onClick.AddListener(() =>
         {
             confirmationPanel.ShowSellConfirmation(towerId, sellValue);

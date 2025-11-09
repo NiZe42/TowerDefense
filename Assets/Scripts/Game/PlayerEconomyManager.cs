@@ -3,6 +3,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     Handles Player Economy. Controls cash flow of a player.
+/// </summary>
 public class PlayerEconomyManager : MonoBehaviourSingleton<PlayerEconomyManager>, IEconomyValidator
 {
     [SerializeField]
@@ -13,6 +16,9 @@ public class PlayerEconomyManager : MonoBehaviourSingleton<PlayerEconomyManager>
         EventBus.Instance.Subscribe<OnTowerBought>((Action<IEvent>)ProccessMoneyOperations);
         EventBus.Instance.Subscribe<OnTowerUpgraded>((Action<IEvent>)ProccessMoneyOperations);
         EventBus.Instance.Subscribe<OnTowerSold>((Action<IEvent>)ProccessMoneyOperations);
+        EventBus.Instance.Subscribe<OnEnemyDestroyed>((Action<IEvent>)ProccessMoneyOperations);
+
+        UIManager.Instance.GetPlayerMoneyUI().SetPlayerMoneyText(money);
     }
 
     public override void OnDestroy()
@@ -25,6 +31,7 @@ public class PlayerEconomyManager : MonoBehaviourSingleton<PlayerEconomyManager>
         EventBus.Instance.Unsubscribe<OnTowerBought>((Action<IEvent>)ProccessMoneyOperations);
         EventBus.Instance.Unsubscribe<OnTowerUpgraded>((Action<IEvent>)ProccessMoneyOperations);
         EventBus.Instance.Unsubscribe<OnTowerSold>((Action<IEvent>)ProccessMoneyOperations);
+        EventBus.Instance.Unsubscribe<OnEnemyDestroyed>((Action<IEvent>)ProccessMoneyOperations);
 
         base.OnDestroy();
     }
@@ -57,8 +64,11 @@ public class PlayerEconomyManager : MonoBehaviourSingleton<PlayerEconomyManager>
             case OnTowerSold towerSold:
                 Earn(towerSold.moneyGained);
                 break;
-            default:
-                return;
+            case OnEnemyDestroyed enemyDestroyed:
+                Earn(enemyDestroyed.droppedMoney);
+                break;
         }
+
+        EventBus.Instance.InvokeEvent(new OnPlayerMoneyChanged { newMoney = money });
     }
 }

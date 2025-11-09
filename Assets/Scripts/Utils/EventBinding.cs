@@ -1,5 +1,8 @@
 using System;
 
+/// <summary>
+///     Basic contract specifying Action delegates.
+/// </summary>
 internal interface IEventBinding<T>
 {
     public Action<T> onEvent { get; set; }
@@ -8,6 +11,9 @@ internal interface IEventBinding<T>
     public void Clear();
 }
 
+/// <summary>
+///     Specific templated <see cref="IEventBinding{T}" />>, that allows for subscribing, invoking and unsubscribing.
+/// </summary>
 internal class EventBinding<T> : IEventBinding<T> where T : IEvent
 {
     public EventBinding() : this(null) { }

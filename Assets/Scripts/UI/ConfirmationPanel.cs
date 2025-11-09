@@ -2,6 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+///     Panel, that pops up after you have clicked on <see cref="SelectionButton" />> to build/upgrade/sell.
+/// </summary>
 public class ConfirmationPanel : MonoBehaviour
 {
     [SerializeField]

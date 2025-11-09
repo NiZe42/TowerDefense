@@ -1,3 +1,6 @@
+/// <summary>
+///     Predicate that returns true if specific event has been triggered.
+/// </summary>
 public class EventPredicate<TEvent> : IPredicate where TEvent : IEvent
 {
     private bool isTriggered;

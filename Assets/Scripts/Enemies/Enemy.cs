@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     An enemy in the game that can move, take damage, and interact with the game world.
+///     Inherits from <see cref="Damageable" /> to have health.
+/// </summary>
 public class Enemy : Damageable
 {
     [SerializeField]
@@ -80,7 +84,10 @@ public class Enemy : Damageable
 
     public override void Died()
     {
-        EventBus.Instance.InvokeEvent(new OnEnemyDestroyed { droppedMoney = carriedMoney });
+        EventBus.Instance.InvokeEvent(
+            new OnEnemyDestroyed
+                { droppedMoney = carriedMoney, deathPosition = transform.position });
+
         Destroy(gameObject);
     }
 }

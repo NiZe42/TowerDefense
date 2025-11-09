@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+/// <summary>
+///     Holds dictionary of <see cref="IEvent"/>> to <see cref="IEventBinding{T}"/>>.
+/// Allows for subscription, unsubscription and Invoking events.
+/// </summary>
 public class EventBus : MonoBehaviourSingleton<EventBus>
 {
     private readonly Dictionary<Type, object> eventBindings = new Dictionary<Type, object>();

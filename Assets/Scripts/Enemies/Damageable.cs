@@ -1,8 +1,11 @@
 using System;
 using UnityEngine;
 
-// I would like this to be interface, but Unity does not allow for serialization of objects as interfaces.
-// So for editor interaction it is abstract class.
+/// <summary>
+///     An object that can take damage in the game.
+///     Unity cannot serialize interfaces in the inspector, so an abstract class
+///     is used for editor interaction.
+/// </summary>
 public abstract class Damageable : MonoBehaviour
 {
     public abstract int Health { get; protected set; }

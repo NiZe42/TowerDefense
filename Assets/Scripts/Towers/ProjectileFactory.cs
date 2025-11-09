@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Streamlines creating of Projectiles.
+/// </summary>
 public class ProjectileFactory
 {
     private int damage;

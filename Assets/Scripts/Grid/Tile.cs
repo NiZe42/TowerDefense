@@ -1,12 +1,17 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     Basic unit of <see cref="TileGrid" />>.
+///     Holds occupation, quad and world position.
+/// </summary>
 public class Tile : IEquatable<Tile>
 {
     private static readonly Tile nullTile =
         new Tile(new Vector3(float.MinValue, float.MaxValue, float.MinValue));
 
     public bool isOccupied;
+    public TileQuad quad;
     public Vector3 worldPosition;
 
     public Tile(Vector3 position, bool isOccupied = false)

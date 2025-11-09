@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 
 // Would like to do bootstraping magic later to make it so Tick is called automatically by engine.
+/// <summary>
+///     Timer with events OnInterval and Ontick, that allow for generic use of overtime entities.
+/// </summary>
 public class IntervalTimer
 {
     private readonly float intervalSeconds;

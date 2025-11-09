@@ -1,8 +1,9 @@
 using UnityEngine;
 
-// All towers in the game are designed to be 2x2 so there is no reason to select anything smaller than that.
-// Main manipulations are with bottom left, as it is closer to start of coords.
-
+/// <summary>
+///     Basic Block of selection and Tower building.
+///     All towers are standing on a 2x2 tile.
+/// </summary>
 public struct Block2X2
 {
     public Tile topLeftTile;

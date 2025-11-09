@@ -1,3 +1,6 @@
+/// <summary>
+///     Overtime effect, that slows target <see cref="Enemy" />>.
+/// </summary>
 public class SlowEffect : Effect<Enemy>
 {
     private readonly float multiplier;

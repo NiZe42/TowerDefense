@@ -1,9 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+///     Handles Input in the game.
+/// </summary>
 public class InputManager : MonoBehaviourSingleton<InputManager>
 {
     private Camera activeCamera;
+
+    private bool clickQueued;
     private LayerMask mask;
     private LayerMask raycastMask;
     private TileGrid TileGridInstance;
@@ -15,12 +21,18 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
         raycastMask      = LayerMask.GetMask("TilePlane", "Tower");
     }
 
-    public void OnLeftMouseClicked()
+    public void Update()
     {
+        if (!clickQueued)
+        {
+            return;
+        }
+
         Debug.Log("OnLeftMouseClicked");
         if (EventSystem.current.IsPointerOverGameObject())
         {
             Debug.Log("Clicked UI, ignore world click");
+            clickQueued = false;
             return;
         }
 
@@ -33,10 +45,23 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
             raycastMask))
         {
             ProcessRaycastHit(hit);
+            clickQueued = false;
             return;
         }
 
         EventBus.Instance.InvokeEvent(new OnNothingSelected());
+        clickQueued = false;
+    }
+
+    public void OnLeftMouseClicked()
+    {
+        clickQueued = true;
+    }
+
+    public void ReloadScene()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ProcessRaycastHit(RaycastHit hit)
@@ -75,7 +100,6 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
             return;
         }
 
-        Debug.Log("invoking free");
         EventBus.Instance.InvokeEvent(
             new OnFreeBlock2X2Selected { blockCenter = possibleSelectedBlock.GetCenterPosition() });
     }
@@ -109,5 +133,17 @@ public class InputManager : MonoBehaviourSingleton<InputManager>
         }
 
         return null;
+    }
+
+    public void IncreaseTimeMultiplier()
+    {
+        Debug.Log("IncreaseTimeMultiplier");
+        GameManager.Instance.IncrementTimeMultiplier(true);
+    }
+
+    public void DecreaseTimeMultiplier()
+    {
+        Debug.Log("DecreaseTimeMultiplier");
+        GameManager.Instance.IncrementTimeMultiplier(false);
     }
 }

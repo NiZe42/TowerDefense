@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+///     Old version of visualizer for <see cref="TileGrid" />.
+///     Uses OnDrawGizmos().
+/// </summary>
 [RequireComponent(typeof(TileGrid))]
 public class GridVisualizer : MonoBehaviour
 {
