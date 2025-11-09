@@ -13,7 +13,10 @@ public class PlacementTutorialUI : MonoBehaviour
 
     public void OnDestroy()
     {
-        EventBus.Instance.Unsubscribe<OnFreeBlock2X2Selected>(FreeBlock2X2Selected);
+        if (EventBus.Instance != null)
+        {
+            EventBus.Instance.Unsubscribe<OnFreeBlock2X2Selected>(FreeBlock2X2Selected);
+        }
     }
 
     private void FreeBlock2X2Selected()

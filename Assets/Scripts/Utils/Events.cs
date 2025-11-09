@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 /// <summary>
 ///     Base class of all Events.
 /// </summary>
